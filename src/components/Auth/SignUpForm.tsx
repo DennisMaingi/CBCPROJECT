@@ -54,8 +54,19 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onBackToLogin }) => {
     setIsLoading(true);
 
     try {
+      // If Supabase is not configured, show demo message
+      if (!supabase) {
+        alert('Demo mode: Account creation requires Supabase configuration. Please use demo login instead.');
+        onBackToLogin();
+        return;
+      }
+      
       // Create user account
-      const { data, error: signUpError } = await signUp(formData.email, formData.password, {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
         name: formData.name,
         role: formData.role,
         phone: formData.phone
@@ -76,6 +87,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onBackToLogin }) => {
             name: formData.name,
             role: formData.role,
             phone: formData.phone,
+          }
+        }
             institution_id: '550e8400-e29b-41d4-a716-446655440000' // Default institution
           });
 

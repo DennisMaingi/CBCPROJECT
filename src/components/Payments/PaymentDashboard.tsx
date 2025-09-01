@@ -31,11 +31,44 @@ const PaymentDashboard: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      fetchStudentData();
+      if (supabase) {
+        fetchStudentData();
+      } else {
+        // Mock data for demo mode
+        setStudentId('stud-001');
+        setPaymentPlans([
+          {
+            id: 'plan-1',
+            name: 'Grade 3 Term 1 Fees',
+            amount: 20000,
+            currency: 'KES',
+            term: 'Term 1',
+            due_date: '2025-02-15',
+            description: 'School fees for Term 1 2025'
+          },
+          {
+            id: 'plan-2',
+            name: 'Grade 3 Activity Fees',
+            amount: 5000,
+            currency: 'KES',
+            term: 'Term 1',
+            due_date: '2025-02-20',
+            description: 'Activity and materials fees'
+          }
+        ]);
+        setPaymentStats({
+          totalPaid: 15000,
+          totalPending: 25000,
+          nextDueDate: '2025-02-15'
+        });
+        setIsLoading(false);
+      }
     }
   }, [user]);
 
   const fetchStudentData = async () => {
+    if (!supabase) return;
+    
     try {
       // Get student ID
       const { data: studentData, error: studentError } = await supabase
