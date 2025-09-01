@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { School, Eye, EyeOff, User, Lock } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import SignUpForm from './SignUpForm';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [selectedRole, setSelectedRole] = useState<'student' | 'teacher' | 'admin'>('student');
+  const [showSignUp, setShowSignUp] = useState(false);
   const { login, isLoading } = useAuth();
+
+  if (showSignUp) {
+    return <SignUpForm onBackToLogin={() => setShowSignUp(false)} />;
+  }
 
   const demoCredentials = {
     student: { email: 'john.student@school.ke', password: 'demo123' },
@@ -30,7 +35,6 @@ const LoginForm: React.FC = () => {
     const credentials = demoCredentials[role];
     setEmail(credentials.email);
     setPassword(credentials.password);
-    setSelectedRole(role);
   };
 
   return (
@@ -138,6 +142,16 @@ const LoginForm: React.FC = () => {
 
           <div className="text-center text-sm text-gray-600">
             <p>Demo credentials: Use any demo button above or email with password "demo123"</p>
+          </div>
+
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setShowSignUp(true)}
+              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Don't have an account? Sign up
+            </button>
           </div>
         </form>
       </div>

@@ -9,7 +9,8 @@ import {
   Settings,
   GraduationCap,
   ClipboardList,
-  Calendar
+  Calendar,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -33,6 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
           { id: 'subjects', label: 'My Subjects', icon: BookOpen },
           { id: 'assignments', label: 'Assignments', icon: ClipboardList },
           { id: 'progress', label: 'My Progress', icon: BarChart3 },
+          { id: 'payments', label: 'School Fees', icon: CreditCard },
           { id: 'calendar', label: 'Calendar', icon: Calendar }
         ];
       
@@ -65,8 +67,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const menuItems = getMenuItems();
 
   return (
-    <div className="w-64 bg-white shadow-sm border-r border-gray-200 h-full">
-      <div className="p-4">
+    <div className="w-64 bg-white shadow-sm border-r border-gray-200 h-full overflow-y-auto">
+      <div className="p-2 sm:p-4">
         <nav className="space-y-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
